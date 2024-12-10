@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_DEEPUSER}:${process.env.DB_DEEPPASS}@cluster0.ruz4b.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -74,8 +74,39 @@ async function run() {
    
     }) 
 
+    app.delete('/seaData/:id', async(req, res) =>{
+
+      const id = req.params.id 
+      const query = { _id: new ObjectId(id) }
+      const result = await seaCollection.deleteOne(query)
+      res.send(result)
+
+    }) 
 
 
+    /////update system/////////
+    
+    app.get('/seaData/:id', async(req, res) =>{
+    const id = req.params.id 
+    const query = { _id: new ObjectId(id) }
+    const result = await seaCollection.findOne(query)
+    res.send(result)}) 
+  
+    app.put('/seaData/:id', async(req, res) => {
+    const id = req.params.id 
+    const upUsr = req.body 
+    console.log(id, upUsr)
+    const filter = { _id: new ObjectId(id) }
+    const option = { upsert: true }
+    const updateUser = req.body
+    const upz = {
+    $set: {
+    image: updateUser.image,
+    price: updateUser.price,
+    name: updateUser.name}}
+    const result = await seaCollection.updateOne(filter, upz, option)
+    res.send(result)}) 
+  
     ////crud////
 
 

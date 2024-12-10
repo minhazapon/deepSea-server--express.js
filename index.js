@@ -38,7 +38,7 @@ async function run() {
     // Send a ping to confirm a successful connection
     
 
-    ////crud/////
+    ////deepSea Data/////
 
     const deepCollection = client.db('deepDB').collection('deepData')
    
@@ -51,8 +51,32 @@ async function run() {
 
     })
 
+    ////deepSea Data/////
 
-    ////crud/////
+
+    ////crud////
+
+    const seaCollection = client.db('seaDB').collection('seaData')
+    app.post('/seaData',  async(req, res) => {
+       
+      const seaData = req.body 
+      console.log(seaData)
+      const result = await seaCollection.insertOne(seaData)
+      res.send(result)
+      
+    })
+
+    app.get('/seaData', async(req, res) =>{
+       
+      const cursor = seaCollection.find()
+      const result = await cursor.toArray();
+      res.send(result)
+   
+    }) 
+
+
+
+    ////crud////
 
 
 

@@ -103,7 +103,11 @@ async function run() {
     $set: {
     image: updateUser.image,
     price: updateUser.price,
-    name: updateUser.name}}
+    name: updateUser.name,
+    type: updateUser.type,
+    textarea: updateUser.textarea
+  
+    }}
     const result = await seaCollection.updateOne(filter, upz, option)
     res.send(result)}) 
   
